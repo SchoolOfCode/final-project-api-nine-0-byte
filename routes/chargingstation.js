@@ -14,3 +14,5 @@
 // });
 
 // export default router;
+
+//Creating charging point route
