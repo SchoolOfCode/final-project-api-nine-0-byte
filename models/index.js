@@ -7,7 +7,7 @@ export async function getAllChargingStationsFromLatAndLong(location) {
     console.log(lat, long)
     //?lat=sdsf & long =ggdgdfg
     let response = null
-    try {
+    try { // Call OCM 
 
         const res = await fetch(`https://api.openchargemap.io/v3/referencedata?key=${ocmKey}/&Latitude=${lat}&Longitude=${long}`)
         response = await res.json()
