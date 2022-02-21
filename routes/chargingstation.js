@@ -1,18 +1,17 @@
-// import express from "express";
-// import { getAllUsers } from "../models/users.js";
+import express from "express";
+import { getAllChargingStationsFromLatAndLong } from "../models/index.js";
 
-// const router = express.Router();
+const router = express.Router();
 
-// /* GET users listing. */
-// router.get("/", async function (req, res, next) {
-//   const users = await getAllUsers();
+/* GET users listing. */
+router.get("/", async function (req, res, next) {
+console.log(req.query)
+    if(req.query.lat !== null && req.query.long !== null){
+        res.json(await getAllChargingStationsFromLatAndLong(req.query))
+    }
+    
+});
 
-//   res.json({
-//     success: true,
-//     payload: users
-//   });
-// });
+export default router;
 
-// export default router;
-
-//Creating charging point route
+// Creating charging point route
