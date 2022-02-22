@@ -17,6 +17,7 @@ async function callApi(url) {
 
 async function returnAPIdata(location) {
   const { lat, long } = location;
+
   let ncr = null;
   let ocm = null;
   try {
@@ -32,6 +33,7 @@ async function returnAPIdata(location) {
   } catch (err) {
     console.log(err);
   }
+
 
   return [ncr.ChargeDevice, ocm];
 }
@@ -63,12 +65,41 @@ export async function getAllChargingStationsFromLatAndLong(location) {
     let eta = Math.floor(Math.random() * 60);
     const chargingpoint = {
       name: v.ChargeDeviceName,
+
+
+  return [ncr.ChargeDevice, ocm]
+}
+
+
+export async function getAllChargingStationsFromLatAndLong(location) {
+
+  const [ncr, ocm] = await returnAPIdata(location)
+
+  const arrayOfChargingpoints = []
+
+
+  ncr.forEach((v) => {
+   const ocmEquiv = ocm.filter((value)=> {
+     
+      if(value.AddressInfo.Latitude == v.ChargeDeviceLocation.Latitude){
+        console.log("hello")
+        return true
+      }
+    })
+
+    if(ocmEquiv.length === 0){}
+
+    console.log(ocmEquiv)
+    const chargingpoint = {
+      name: v.ChargeDeviceName ,
+
       long: v.ChargeDeviceLocation.Longitude,
       lat: v.ChargeDeviceLocation.Latitude,
       Connectors: v.Connector,
       FAST: false,
       RAPID: false,
       SLOW: true,
+
       Available: eta == 0 ? true : false,
       ETA: eta,
       Price: price,
@@ -81,6 +112,7 @@ export async function getAllChargingStationsFromLatAndLong(location) {
 
   return arrayOfChargingpoints;
 }
+
 
 // Contract:
 // IF you call this api with either a postcode or a longitude or lattitude you should expect:
