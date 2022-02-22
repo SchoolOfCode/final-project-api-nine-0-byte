@@ -54,6 +54,9 @@ export async function getAllChargingStationsFromLatAndLong(location) {
         return true
       }
     })
+
+    if(ocmEquiv.length === 0){}
+
     console.log(ocmEquiv)
     const chargingpoint = {
       name: v.ChargeDeviceName ,
