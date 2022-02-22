@@ -1,7 +1,6 @@
 import { ocmKey } from "../config.js";
 import fetch from "node-fetch";
 
-
 async function callApi(url) {
   let response = null;
   try {
@@ -18,8 +17,9 @@ async function callApi(url) {
 
 async function returnAPIdata(location) {
   const { lat, long } = location;
-  let ncr = null
-  let ocm = null
+
+  let ncr = null;
+  let ocm = null;
   try {
     ncr = await callApi(
       `https://chargepoints.dft.gov.uk/api/retrieve/registry/format/json/lat/${lat}/long/${long}/dist/10/limit/10`
@@ -33,6 +33,38 @@ async function returnAPIdata(location) {
   } catch (err) {
     console.log(err);
   }
+
+
+  return [ncr.ChargeDevice, ocm];
+}
+
+export async function getAllChargingStationsFromLatAndLong(location) {
+  let price = null;
+  let subscriptions = null;
+
+  const [ncr, ocm] = await returnAPIdata(location);
+
+  const arrayOfChargingpoints = [];
+
+  ncr.forEach((v) => {
+    const ocmEquiv = ocm.filter((value) => {
+      if (value.AddressInfo.Latitude == v.ChargeDeviceLocation.Latitude) {
+        console.log("hello");
+        return true;
+      }
+    });
+
+    if (ocmEquiv.length !== 0) {
+      price = ocmEquiv[0].UsageCost;
+    }
+    if (ocmEquiv.length !== 0) {
+      subscriptions = ocmEquiv[0].UsageType;
+    }
+
+    console.log(ocmEquiv);
+    let eta = Math.floor(Math.random() * 60);
+    const chargingpoint = {
+      name: v.ChargeDeviceName,
 
 
   return [ncr.ChargeDevice, ocm]
@@ -60,45 +92,26 @@ export async function getAllChargingStationsFromLatAndLong(location) {
     console.log(ocmEquiv)
     const chargingpoint = {
       name: v.ChargeDeviceName ,
+
       long: v.ChargeDeviceLocation.Longitude,
       lat: v.ChargeDeviceLocation.Latitude,
       Connectors: v.Connector,
       FAST: false,
       RAPID: false,
       SLOW: true,
-      Available: true,
-      ETA: 10,
-      Price: 10, 
-      Subscriptions: v.SubscriptionDetails,
+
+      Available: eta == 0 ? true : false,
+      ETA: eta,
+      Price: price,
+      Subscriptions: subscriptions,
       NearbyPOI: [{}],
-    }
+    };
 
-    arrayOfChargingpoints.push(chargingpoint)
-   
-  })
+    arrayOfChargingpoints.push(chargingpoint);
+  });
 
-
-
-return arrayOfChargingpoints
-
-
+  return arrayOfChargingpoints;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // Contract:
