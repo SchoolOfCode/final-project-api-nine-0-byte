@@ -18,6 +18,8 @@ const debug = debugLib("testing-project-week:server");
 const port = normalizePort(process.env.PORT || "5000");
 app.set("port", port);
 
+console.log(port)
+
 /**
  * Create HTTP server.
  */

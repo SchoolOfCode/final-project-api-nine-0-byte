@@ -3,12 +3,14 @@ import fetch from "node-fetch";
 
 export async function getAllChargingStationsFromLatAndLong(location) {
   const { lat, long } = location;
+  let ncr = null
+ let  ocm = null
   try {
-    const ncr = await callApi(
+    ncr = await callApi(
       `https://chargepoints.dft.gov.uk/api/retrieve/registry/format/json/lat/${lat}/long/${long}/dist/10/limit/10`
     );
-    const ocm = await callApi(
-      `https://api.openchargemap.io/v3/referencedata?key=${ocmKey}/&Latitude=${lat}&Longitude=${long}`
+    ocm = await callApi(
+      `https://api.openchargemap.io/v3/poi?key=${ocmKey}/&Latitude=${lat}&Longitude=${long}`
     );
     if (ncr === 200 || ocm === 200) {
       throw "Error: Failure to get data";
@@ -16,6 +18,9 @@ export async function getAllChargingStationsFromLatAndLong(location) {
   } catch (err) {
     console.log(err);
   }
+
+  console.log(ncr,ocm)
+  return ocm
 }
 async function callApi(url) {
   let response = null;
