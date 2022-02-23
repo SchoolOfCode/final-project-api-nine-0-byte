@@ -4,7 +4,7 @@ import fetch from "node-fetch";
 async function callApi(url) {
   let response = null;
   try {
-    // Call OCM
+
 
     const res = await fetch(url);
     response = await res.json();
