@@ -87,15 +87,14 @@ async function returnAPIdata(location) {
         let price = (()=>{
           const getPrice = ()=>{
             let randomNumber = Math.floor(Math.random()*100)
-            randomNumber = randomNumber>70? "Free" : randomNumber
+            randomNumber = randomNumber>70 || randomNumber===0? "Free" : randomNumber
             return  randomNumber>25 && randomNumber !== "Free" ? getPrice() : randomNumber 
           }
           let gottonPrice = getPrice()
-          if (gottonPrice === "Free"){ return gottonPrice}
-          String(gottonPrice).length === 1?String(gottonPrice)+"0" : gottonPrice 
-          if(String(gottonPrice).length===1){ gottonPrice = gottonPrice*10}
+          if (gottonPrice === "Free"){ return gottonPrice} 
+          if(String(gottonPrice).length===1){ gottonPrice = "0"+gottonPrice}
 
-          return "£00." + gottonPrice
+          return "£00." + gottonPrice + "/Kwh"
           }
           )();
   
