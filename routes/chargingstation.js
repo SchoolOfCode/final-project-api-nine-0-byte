@@ -1,6 +1,7 @@
 import express from "express";
 import { getAllChargingStationsFromLatAndLong } from "../models/index.js";
 
+
 const router = express.Router();
 
 /* GET users listing. */
