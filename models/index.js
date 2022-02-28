@@ -4,8 +4,6 @@ import fetch from "node-fetch";
 async function callApi(url) {
   let response = null;
   try {
-
-
     const res = await fetch(url);
     response = await res.json();
   } catch (err) {
@@ -34,69 +32,63 @@ async function returnAPIdata(location) {
     console.log(err);
   }
 
-
   return [ncr.ChargeDevice, ocm];
 }
 
+export async function getAllChargingStationsFromLatAndLong(location) {
+  let price = null;
+  let subscriptions = null;
+  let { dist } = location ?? 10;
+  const [ncr, ocm] = await returnAPIdata(location);
 
+  const arrayOfChargingpoints = [];
 
-    export async function getAllChargingStationsFromLatAndLong(location) {
-      let price = null;
-      let subscriptions = null;
-      
-      const [ncr, ocm] = await returnAPIdata(location)
+  ncr.forEach((v) => {
+    const ocmEquiv = ocm.filter((value) => {
+      if (value.AddressInfo.Latitude == v.ChargeDeviceLocation.Latitude) {
+        console.log("hello");
+        return true;
+      }
+    });
 
-      const arrayOfChargingpoints = []
-
-
-      ncr.forEach((v) => {
-        const ocmEquiv = ocm.filter((value) => {
-
-          if (value.AddressInfo.Latitude == v.ChargeDeviceLocation.Latitude) {
-            console.log("hello")
-            return true
-          }
-        })
-
-        if (ocmEquiv.length !== 0) {
-          price = ocmEquiv[0].UsageCost;
-          subscriptions = ocmEquiv[0].UsageType
-        }
-   
-        // fun syntax thing I learned the other day, if you wrap a fat arrow in smooths and add () after it, it will run once instead of being a function. This will set eta to 0(available) probability% times
-        const probability = 35;
-        let eta =( ()=>{ 
-          if(Math.floor(Math.random() * 100) < probability){
-            return 0
-        }else{
-          return Math.floor(Math.random() * 60)
-        }
-        } )()
-        /////////////////////////////
-  
-        const chargingpoint = {
-          name: v.ChargeDeviceName,
-
-          long: v.ChargeDeviceLocation.Longitude,
-          lat: v.ChargeDeviceLocation.Latitude,
-          Connectors: v.Connector,
-          FAST: false,
-          RAPID: false,
-          SLOW: true,
-
-          Available: eta == 0 ? true : false,
-          ETA: eta,
-          Price: price,
-          Subscriptions: subscriptions,
-          NearbyPOI: [{}],
-        };
-
-        arrayOfChargingpoints.push(chargingpoint);
-      });
-
-      return arrayOfChargingpoints;
+    if (ocmEquiv.length !== 0) {
+      price = ocmEquiv[0].UsageCost;
+      subscriptions = ocmEquiv[0].UsageType;
     }
 
+    // fun syntax thing I learned the other day, if you wrap a fat arrow in smooths and add () after it, it will run once instead of being a function. This will set eta to 0(available) probability% times
+    const probability = 35;
+    let eta = (() => {
+      if (Math.floor(Math.random() * 100) < probability) {
+        return 0;
+      } else {
+        return Math.floor(Math.random() * 60);
+      }
+    })();
+    /////////////////////////////
+
+    const chargingpoint = {
+      name: v.ChargeDeviceName,
+
+      long: v.ChargeDeviceLocation.Longitude,
+      lat: v.ChargeDeviceLocation.Latitude,
+      Connectors: v.Connector,
+      FAST: false,
+      RAPID: false,
+      SLOW: true,
+
+      Available: eta == 0 ? true : false,
+      ETA: eta,
+      Price: price,
+      Subscriptions: subscriptions,
+      NearbyPOI: [{}],
+    };
+
+    arrayOfChargingpoints.push(chargingpoint);
+  });
+
+  return arrayOfChargingpoints;
+}
 
 // Contract:
 // IF you call this api with either a postcode or a longitude or lattitude you should expect:
