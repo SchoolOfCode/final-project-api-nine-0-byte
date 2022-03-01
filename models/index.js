@@ -22,7 +22,7 @@ async function returnAPIdata(lat, long, dist) {
 
   const APIStoCall =[
       callApi(
-      `https://chargepoints.dft.gov.uk/api/retrieve/registry/format/json/lat/${lat}/long/${long}/dist/${dist}/limit/10`
+      `https://chargepoints.dft.gov.uk/api/retrieve/registry/format/json/lat/${lat}/long/${long}/dist/${dist}/limit/20`
     )
     //  callApi(
     //   `https://api.openchargemap.io/v3/poi?key=${ocmKey}/&Latitude=${lat}&Longitude=${long}`
@@ -42,49 +42,28 @@ async function returnAPIdata(lat, long, dist) {
     console.log(err);
   }
 
-
-
   return [ncr?.ChargeDevice];
 
 }
 
-export async function getAllChargingStationsFromLatAndLong({lat, long, dist}) {
-  let price = null;
-  let subscriptions = null;
-  dist = dist ?? 10;
-  lat = lat ??	53.958332;
-  long = long ?? -1.080278;
-  const [ncr, ocm] = await returnAPIdata(lat, long, dist);
-
-  const arrayOfChargingpoints = [];
-
-  ncr.forEach((v) => {
-    const ocmEquiv = ocm.filter((value) => {
-      if (value.AddressInfo.Latitude == v.ChargeDeviceLocation.Latitude) {
-        console.log("hello");
-        return true;
-      }
-    });
-
-    if (ocmEquiv.length !== 0) {
-      price = ocmEquiv[0].UsageCost;
-      subscriptions = ocmEquiv[0].UsageType;
-    }
 
 
 
-    export async function getAllChargingStationsFromLatAndLong(location) {
+    export async function getAllChargingStationsFromLatAndLong({lat,long,dist}) {
+      dist = dist ?? 10;
+      lat = lat ??	53.958332;
+      long = long ?? -1.080278;
 
       let subscriptions = [{Test: "Placeholder until dummy data is ready"}];
       
       console.time("CallApiArray")
-      const [ncr] = await returnAPIdata(location)
+      const [ncr] = await returnAPIdata(lat, long, dist)
       console.timeEnd("CallApiArray")
 
       const arrayOfChargingpoints = []
 
 
-      ncr.forEach((v) => {
+      ncr?.forEach((v) => {
         // const ocmEquiv = ocm.filter((value) => {
 
         //   if (value.AddressInfo.Latitude == v.ChargeDeviceLocation.Latitude) {
@@ -143,31 +122,10 @@ export async function getAllChargingStationsFromLatAndLong({lat, long, dist}) {
       });
 
       return arrayOfChargingpoints;
+    
     }
 
-
-    const chargingpoint = {
-      name: v.ChargeDeviceName,
-
-      long: v.ChargeDeviceLocation.Longitude,
-      lat: v.ChargeDeviceLocation.Latitude,
-      Connectors: v.Connector,
-      FAST: false,
-      RAPID: false,
-      SLOW: true,
-
-      Available: eta == 0 ? true : false,
-      ETA: eta,
-      Price: price,
-      Subscriptions: subscriptions,
-      NearbyPOI: [{}],
-    };
-
-    arrayOfChargingpoints.push(chargingpoint);
-  });
-
-  return arrayOfChargingpoints;
-}
+  
 
 // Contract:
 // IF you call this api with either a postcode or a longitude or lattitude you should expect:
