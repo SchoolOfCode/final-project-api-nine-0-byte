@@ -13,14 +13,13 @@ async function callApi(url) {
   return await response;
 }
 
-async function returnAPIdata(location) {
-  const { lat, long } = location;
+async function returnAPIdata(lat, long, dist) {
 
   let ncr = null;
   let ocm = null;
   try {
     ncr = await callApi(
-      `https://chargepoints.dft.gov.uk/api/retrieve/registry/format/json/lat/${lat}/long/${long}/dist/10/limit/10`
+      `https://chargepoints.dft.gov.uk/api/retrieve/registry/format/json/lat/${lat}/long/${long}/dist/${dist}/limit/10`
     );
     ocm = await callApi(
       `https://api.openchargemap.io/v3/poi?key=${ocmKey}/&Latitude=${lat}&Longitude=${long}`
@@ -35,11 +34,13 @@ async function returnAPIdata(location) {
   return [ncr.ChargeDevice, ocm];
 }
 
-export async function getAllChargingStationsFromLatAndLong(location) {
+export async function getAllChargingStationsFromLatAndLong({lat, long, dist}) {
   let price = null;
   let subscriptions = null;
-  let { dist } = location ?? 10;
-  const [ncr, ocm] = await returnAPIdata(location);
+  dist = dist ?? 10;
+  lat = lat ??	53.958332;
+  long = long ?? -1.080278;
+  const [ncr, ocm] = await returnAPIdata(lat, long, dist);
 
   const arrayOfChargingpoints = [];
 
@@ -56,7 +57,7 @@ export async function getAllChargingStationsFromLatAndLong(location) {
       subscriptions = ocmEquiv[0].UsageType;
     }
 
-    // fun syntax thing I learned the other day, if you wrap a fat arrow in smooths and add () after it, it will run once instead of being a function. This will set eta to 0(available) probability% times
+
     const probability = 35;
     let eta = (() => {
       if (Math.floor(Math.random() * 100) < probability) {
@@ -65,7 +66,7 @@ export async function getAllChargingStationsFromLatAndLong(location) {
         return Math.floor(Math.random() * 60);
       }
     })();
-    /////////////////////////////
+
 
     const chargingpoint = {
       name: v.ChargeDeviceName,
