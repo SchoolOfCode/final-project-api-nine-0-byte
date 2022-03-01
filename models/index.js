@@ -5,8 +5,6 @@ import fetch from "node-fetch";
 async function callApi(url) {
   let response = null;
   try {
-
-
     const res = await fetch(url);
     response = await res.json();
   } catch (err) {
@@ -16,15 +14,15 @@ async function callApi(url) {
   return await response;
 }
 
-async function returnAPIdata(location) {
-  const { lat, long } = location;
+async function returnAPIdata(lat, long, dist) {
 
   let ncr = null;
   let ocm = null;
 
+
   const APIStoCall =[
       callApi(
-      `https://chargepoints.dft.gov.uk/api/retrieve/registry/format/json/lat/${lat}/long/${long}/dist/10/limit/10`
+      `https://chargepoints.dft.gov.uk/api/retrieve/registry/format/json/lat/${lat}/long/${long}/dist/${dist}/limit/10`
     )
     //  callApi(
     //   `https://api.openchargemap.io/v3/poi?key=${ocmKey}/&Latitude=${lat}&Longitude=${long}`
@@ -39,13 +37,39 @@ async function returnAPIdata(location) {
     // if (ncr === 200 || ocm === 200) {
     //   throw "Error: Failure to get data";
     // }
+
   } catch (err) {
     console.log(err);
   }
 
 
+
   return [ncr?.ChargeDevice];
+
 }
+
+export async function getAllChargingStationsFromLatAndLong({lat, long, dist}) {
+  let price = null;
+  let subscriptions = null;
+  dist = dist ?? 10;
+  lat = lat ??	53.958332;
+  long = long ?? -1.080278;
+  const [ncr, ocm] = await returnAPIdata(lat, long, dist);
+
+  const arrayOfChargingpoints = [];
+
+  ncr.forEach((v) => {
+    const ocmEquiv = ocm.filter((value) => {
+      if (value.AddressInfo.Latitude == v.ChargeDeviceLocation.Latitude) {
+        console.log("hello");
+        return true;
+      }
+    });
+
+    if (ocmEquiv.length !== 0) {
+      price = ocmEquiv[0].UsageCost;
+      subscriptions = ocmEquiv[0].UsageType;
+    }
 
 
 
@@ -121,6 +145,29 @@ async function returnAPIdata(location) {
       return arrayOfChargingpoints;
     }
 
+
+    const chargingpoint = {
+      name: v.ChargeDeviceName,
+
+      long: v.ChargeDeviceLocation.Longitude,
+      lat: v.ChargeDeviceLocation.Latitude,
+      Connectors: v.Connector,
+      FAST: false,
+      RAPID: false,
+      SLOW: true,
+
+      Available: eta == 0 ? true : false,
+      ETA: eta,
+      Price: price,
+      Subscriptions: subscriptions,
+      NearbyPOI: [{}],
+    };
+
+    arrayOfChargingpoints.push(chargingpoint);
+  });
+
+  return arrayOfChargingpoints;
+}
 
 // Contract:
 // IF you call this api with either a postcode or a longitude or lattitude you should expect:
