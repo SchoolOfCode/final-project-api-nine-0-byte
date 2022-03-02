@@ -10,10 +10,11 @@ async function populateTable() {
       `INSERT INTO filters (price, connector_type, availability) VALUES ($1, $2, $3) RETURNING *;`,
       [price, connectorType, availability]
     );
-
     console.log("populated table", res);
   }
 }
+
+populateTable();
 
 // // const response = await db.query(
 // //   `INSERT INTO users (username, first_name, last_name) VALUES ($1, $2, $3);`,
@@ -22,4 +23,4 @@ async function populateTable() {
 
 // console.log(response);
 
-db.end();
+// db.end();
