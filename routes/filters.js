@@ -4,6 +4,13 @@ import { getFilterById, createNewFilter, getAllFilters, replaceFilterById, delet
 const router = express.Router();
 
 /* GET Filters listing. */
+
+router.get("/", async function (req, res, next) {
+    
+  
+  res.json(await getAllFilters()) 
+});
+
 router.get("/:id", async function (req, res, next) {
 
   res.json(await getFilterById(req.params.id)) 
@@ -15,11 +22,6 @@ router.put("/:id", async function (req,res){
     res.json(await replaceFilterById(req.params.id, req.body))
 } )
 
-router.get("/all", async function (req, res, next) {
-    
-  
-    res.json(await getAllFilters()) 
-  });
 
 
 router.post("/", async function(req,res){

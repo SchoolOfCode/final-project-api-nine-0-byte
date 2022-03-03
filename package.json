@@ -10,8 +10,8 @@
     "db:createcomments": "node -r dotenv/config ./db/scripts/comments/createTable.js",
     "db:dropuserstable": "node -r dotenv/config ./db/scripts/users/dropTable.js",
     "db:populateusers": "node -r dotenv/config ./db/scripts/users/populateTable.js",
-
     "db:createfilters": "node -r dotenv/config ./db/scripts/filters/createTable.js",
+    "db:dropfilterstable": "node -r dotenv/config ./db/scripts/filters/dropTable.js",
     "db:populatefilters": "node -r dotenv/config ./db/scripts/filters/populateTable.js",
 
     "db:populatecomments": "node -r dotenv/config ./db/scripts/comments/populateTable.js",

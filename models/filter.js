@@ -3,21 +3,21 @@ import db from "../db/connection.js"
 // (filter_id SERIAL PRIMARY KEY, user_id INT, price FLOAT, connector_type TEXT [], availability BOOLEAN)
 
 export async function getAllFilters(){
-    const response = await db.query("SELECT * FROM filters")
+    const response = await db.query(`SELECT * FROM filters`)
     return response
 }
 
 export async function getFilterById(id){
-    const response = await db.query("SELECT * FROM filters WHERE filter_id = $1", [id])
+    const response = await db.query(`SELECT * FROM filters WHERE filter_id = $1`, [id])
 
     return response
 }
 
-export async function replaceFilterById(id, updatedObject){
-    const {user_id} = updatedObject
-    const {price} = updatedObject
-    const {connector_type} = updatedObject
-    const {availability} = updatedObject
+export async function replaceFilterById(id, createObject){
+    const {user_id} = createObject
+    const {price} = createObject
+    const {connector_type} = createObject
+    const {availability} = createObject
     
     const response = await db.query(`
     UPDATE filters SET 
@@ -34,10 +34,10 @@ export async function replaceFilterById(id, updatedObject){
 
 export async function createNewFilter(createObject){
 
-    const {user_id} = updatedObject 
-    const {price} = updatedObject
-    const {connector_type} = updatedObject
-    const {availability} = updatedObject
+    const {user_id} = createObject 
+    const {price} = createObject
+    const {connector_type} = createObject
+    const {availability} = createObject
 
 
     const response = await db.query(`
@@ -51,7 +51,7 @@ export async function createNewFilter(createObject){
 }
 
 export async function deleteFilterById(id){
-    const response = await db.query("DELETE FROM filters WHERE filter_id = $1 RETURNING *",[id])
+    const response = await db.query(`DELETE FROM filters WHERE filter_id = $1 RETURNING *`,[id])
 
     return response
 }
