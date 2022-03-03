@@ -7,6 +7,8 @@ import cors  from 'cors';
 import logger  from 'morgan';
 
 import chargingstationRouter  from './routes/chargingstation.js';
+import usersRouter from "./routes/users.js"
+import filterRouter from "./routes/filters.js"
 
 const app = express();
 
@@ -18,6 +20,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use('/chargingstation', chargingstationRouter);
+app.use('/filters', filterRouter);
+app.use('/users', usersRouter);
 
 app.use(function (req, res, next) {
   res.status(404).json({message: "We couldn't find what you were looking for 😞"})
