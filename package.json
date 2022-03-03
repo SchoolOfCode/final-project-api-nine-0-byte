@@ -10,7 +10,12 @@
     "db:createcomments": "node -r dotenv/config ./db/scripts/comments/createTable.js",
     "db:dropuserstable": "node -r dotenv/config ./db/scripts/users/dropTable.js",
     "db:populateusers": "node -r dotenv/config ./db/scripts/users/populateTable.js",
+
+    "db:createfilters": "node -r dotenv/config ./db/scripts/filters/createTable.js",
+    "db:populatefilters": "node -r dotenv/config ./db/scripts/filters/populateTable.js",
+
     "db:populatecomments": "node -r dotenv/config ./db/scripts/comments/populateTable.js",
+
     "dev": "nodemon -r dotenv/config ./bin/www.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
