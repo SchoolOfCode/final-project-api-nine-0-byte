@@ -2,3 +2,5 @@
 export const connectionString = process.env.DATABASE_URL;
 
 export const ocmKey = process.env.OCMKEY;
+
+// scripts/database
