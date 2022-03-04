@@ -1,7 +1,6 @@
 import express from "express";
 import { getAllChargingStationsFromLatAndLong } from "../models/index.js";
 
-
 const router = express.Router();
 
 /* GET users listing. */
@@ -13,5 +12,4 @@ router.get("/", async function (req, res, next) {
 
 export default router;
 
-
-//Dev2.0 
+//Dev2.1
