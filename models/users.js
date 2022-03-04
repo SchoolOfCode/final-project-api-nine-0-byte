@@ -5,26 +5,26 @@ export async function getAllUsers(){
     return response
 }
 
-export async function getUserByEmail({email}){
-    const response = await db.query("SELECT * FROM users WHERE email = $1", [email])
+export async function getUserById({id}){
+    const response = await db.query("SELECT * FROM users WHERE user_id = $1", [id])
 
     return response
 }
 
 export async function replaceUserById(id, updatedObject){
-    const {email} = updatedObject
+    const {user_id} = updatedObject
     const {username} = updatedObject
 
-    const response = await db.query("UPDATE users SET email = $1, username = $2 WHERE user_id = $3 RETURNING *", [email, username, id])
+    const response = await db.query("UPDATE users SET user_id = $1, username = $2 WHERE user_id = $3 RETURNING *", [id, username, id])
 
     return response
 }
 
-export async function createNewUser({email, username}){
+export async function createNewUser({id, username}){
 
     username = username ?? "Username is changeable in settings"
 
-    const response = await db.query("INSERT INTO users (email, username) VALUES ($1, $2) RETURNING *", [email, username])
+    const response = await db.query("INSERT INTO users (user_id, username) VALUES ($1, $2) RETURNING *", [id, username])
 
     return response
 }

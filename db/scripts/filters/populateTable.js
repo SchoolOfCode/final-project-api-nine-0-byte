@@ -1,5 +1,7 @@
 import db from "../../connection.js";
-import { filters } from "../../../utils/dummyFilter.js";
+import { filters } from "./dummyFilter.js";
+
+
 
 async function populateTable() {
   for (let i = 0; i < filters.length; i++) {
@@ -16,11 +18,3 @@ async function populateTable() {
 }
 populateTable();
 
-// // const response = await db.query(
-// //   `INSERT INTO users (username, first_name, last_name) VALUES ($1, $2, $3);`,
-// //   ["iseecode", "Chris", "Code"]
-// );
-
-// console.log(response);
-
-// db.end();

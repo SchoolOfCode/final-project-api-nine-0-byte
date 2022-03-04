@@ -1,6 +1,12 @@
 import db from "../../connection.js";
 
-const queryString = `CREATE TABLE IF NOT EXISTS filters (filter_id SERIAL PRIMARY KEY, user_id INT, price FLOAT, connector_type TEXT [], availability BOOLEAN);`;
+const queryString = `
+CREATE TABLE IF NOT EXISTS filters 
+    (filter_id SERIAL PRIMARY KEY, 
+    user_id TEXT, 
+    price FLOAT, 
+    connector_type TEXT [], 
+    availability BOOLEAN);`;
 //CONSTRAINT filter_user_id FOREIGN KEY(user_id) REFERENCES users(user_id)
 // const response = await db.query(queryString);
 
