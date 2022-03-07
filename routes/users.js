@@ -10,10 +10,9 @@ import {
 const router = express.Router();
 
 /* GET users listing. */
-router.get("/", async function (req, res, next) {
-  console.log(req.query);
+router.get("/:id", async function (req, res, next) {
 
-  res.json(await getUserById(req.query));
+  res.json(await getUserById(req.params.id));
 });
 
 router.put("/:id", async function (req, res) {
