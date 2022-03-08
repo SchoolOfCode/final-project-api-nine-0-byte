@@ -1,5 +1,5 @@
 import express from "express";
-import { getCommentById, createNewComment, getAllComments, replaceCommentById, deleteCommentById } from "../models/comments.js";
+import { getPinById, getAllPins, replacePinById, createNewPin, deletePinById } from "../models/pins.js";
 
 const router = express.Router();
 
@@ -8,31 +8,31 @@ const router = express.Router();
 router.get("/", async function (req, res, next) {
     
   
-  res.json(await getAllComments()) 
+  res.json(await getAllPins()) 
 });
 
 router.get("/:id", async function (req, res, next) {
   
-  res.json(await getCommentById(req.params.id)) 
+  res.json(await getPinById(req.params.id)) 
 });
 
 
 router.put("/:id", async function (req,res){
 console.log(req.params.id)
-    res.json(await replaceCommentById(req.params.id, req.body))
+    res.json(await replacePinById(req.params.id, req.body))
 } )
 
 
 
 router.post("/", async function(req,res){
 
-    res.json(await createNewComment(req.body))
+    res.json(await createNewPin(req.body))
 })
 
 
 router.delete("/:id", async function(req,res){
 
-    res.json(await deleteCommentById(req.params.id))
+    res.json(await deletePinById(req.params.id))
 })
 
 export default router;

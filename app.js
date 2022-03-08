@@ -11,6 +11,8 @@ import usersRouter from "./routes/users.js"
 import filterRouter from "./routes/filters.js"
 import joinRouter from "./routes/joins.js"
 import commentsRouter from "./routes/comments.js"
+import pinsRouter from "./routes/pins.js"
+import searchesRouter from "./routes/searches.js"
 
 const app = express();
 
@@ -26,6 +28,8 @@ app.use('/filters', filterRouter);
 app.use('/users', usersRouter);
 app.use('/joins', joinRouter);
 app.use('/comments', commentsRouter);
+app.use('/pins', pinsRouter);
+app.use('/searches', searchesRouter);
 
 app.use(function (req, res, next) {
   res.status(404).json({message: "We couldn't find what you were looking for 😞"})
