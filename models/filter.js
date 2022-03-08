@@ -8,7 +8,7 @@ export async function getAllFilters(){
 }
 
 export async function getFilterById(id){
-    const response = await db.query(`SELECT * FROM filters WHERE filter_id = $1`, [id])
+    const response = await db.query(`SELECT * FROM filters WHERE user_id = $1`, [id])
 
     return response
 }
