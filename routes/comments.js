@@ -1,38 +1,38 @@
 import express from "express";
-import { getFilterById, createNewFilter, getAllFilters, replaceFilterById, deleteFilterById } from "../models/filter.js";
+import { getCommentById, createNewComment, getAllComments, replaceCommentById, deleteCommentById } from "../models/comments.js";
 
 const router = express.Router();
 
-/* GET Filters listing. */
+/* GET Comments listing. */
 
 router.get("/", async function (req, res, next) {
     
   
-  res.json(await getAllFilters()) 
+  res.json(await getAllComments()) 
 });
 
 router.get("/:id", async function (req, res, next) {
-
-  res.json(await getFilterById(req.params.id)) 
+  
+  res.json(await getCommentById(req.params.id)) 
 });
 
 
 router.put("/:id", async function (req,res){
-
-    res.json(await replaceFilterById(req.params.id, req.body))
+console.log(req.params.id)
+    res.json(await replaceCommentById(req.params.id, req.body))
 } )
 
 
 
 router.post("/", async function(req,res){
 
-    res.json(await createNewFilter(req.body))
+    res.json(await createNewComment(req.body))
 })
 
 
 router.delete("/:id", async function(req,res){
 
-    res.json(await deleteFilterById(req.params.id))
+    res.json(await deleteCommentById(req.params.id))
 })
 
 export default router;

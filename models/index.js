@@ -1,6 +1,7 @@
 import { ocmKey } from "../config.js";
 import fetch from "node-fetch";
-
+import {getSearchByLocation, createNewSearch} from "./search.js"
+import {createNewPin} from "./pins.js"
 
 async function callApi(url) {
   let response = null;
@@ -47,37 +48,38 @@ async function returnAPIdata(lat, long, dist) {
 }
 
 
-
+async function hasSearchBeenMadeBefore({lat,long}){
+      return await getSearchByLocation(String([lat,long])) !== []? true:false
+}
 
     export async function getAllChargingStationsFromLatAndLong({lat,long,dist}) {
       dist = dist ?? 10;
       lat = lat ??	53.958332;
       long = long ?? -1.080278;
 
+      const shouldSaveSearch = await hasSearchBeenMadeBefore({lat,long})
+      console.log(shouldSaveSearch)
+      
+      if(!shouldSaveSearch){return await getPinsBySearch(String([lat,long]))}
+
       let subscriptions = [{Test: "Placeholder until dummy data is ready"}];
       
-      console.time("CallApiArray")
-      const [ncr] = await returnAPIdata(lat, long, dist)
-      console.timeEnd("CallApiArray")
+      
+      const [ncr] = await returnAPIdata(lat, long, dist) 
+      
 
       const arrayOfChargingpoints = []
 
 
       ncr?.forEach((v) => {
-        // const ocmEquiv = ocm.filter((value) => {
 
-        //   if (value.AddressInfo.Latitude == v.ChargeDeviceLocation.Latitude) {
-        //     console.log("hello")
-        //     return true
-        //   }
-        // })
-
-        // if (ocmEquiv.length !== 0) {
-        //   price = ocmEquiv[0].UsageCost;
-        //   subscriptions = ocmEquiv[0].UsageType
-        // }
-   
-        // fun syntax thing I learned the other day, if you wrap a fat arrow in smooths and add () after it, it will run once instead of being a function. This will set eta to 0(available) probability% times
+        if(shouldSaveSearch){
+          createNewSearch({
+            search:String([lat,long]),
+            location:String([v.ChargeDeviceLocation.Latitude,v.ChargeDeviceLocation.Longitude])
+          })
+        }
+        //////////////////////////
         const probability = 35;
         let eta =( ()=>{ 
           if(Math.floor(Math.random() * 100) < probability){
@@ -117,7 +119,9 @@ async function returnAPIdata(lat, long, dist) {
           Subscriptions: subscriptions,
           NearbyPOI: [{}],
         };
-
+        if(shouldSaveSearch){
+          createNewPin(chargingpoint)
+        }
         arrayOfChargingpoints.push(chargingpoint); 
       });
 
@@ -126,7 +130,7 @@ async function returnAPIdata(lat, long, dist) {
     }
 
   
-
+//dev3.0
 // Contract:
 // IF you call this api with either a postcode or a longitude or lattitude you should expect:
 // An array of up to 10 objects [Obj(10)]
