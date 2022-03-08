@@ -15,16 +15,16 @@ export async function replaceUserById(id, updatedObject){
     const {user_id} = updatedObject
     const {username} = updatedObject
 
-    const response = await db.query("UPDATE users SET user_id = $1, username = $2 WHERE user_id = $3 RETURNING *", [id, username, id])
+    const response = await db.query("UPDATE users SET user_id = $1, username = $2 WHERE user_id = $3 RETURNING *", [user_id, username, user_id])
 
     return response.rows
 }
 
-export async function createNewUser({id, username}){
+export async function createNewUser({user_id, username}){
 
     username = username ?? "Username is changeable in settings"
 
-    const response = await db.query("INSERT INTO users (user_id, username) VALUES ($1, $2) RETURNING *", [id, username])
+    const response = await db.query("INSERT INTO users (user_id, username) VALUES ($1, $2) RETURNING *", [user_id, username])
 
     return response.rows
 }

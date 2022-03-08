@@ -36,6 +36,3 @@ router.delete("/:id", async function(req,res){
 })
 
 export default router;
-
-
-//Dev2.0 

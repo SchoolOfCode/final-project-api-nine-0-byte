@@ -23,7 +23,7 @@ router.put("/:id", async function (req, res) {
   res.json(await replaceUserById(req.params.id, req.body));
 });
 
-router.get("/all", async function (req, res, next) {
+router.get("/", async function (req, res, next) {
   res.json(await getAllUsers());
 });
 

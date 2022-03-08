@@ -4,13 +4,13 @@ import db from "../db/connection.js"
 
 export async function getAllComments(){
     const response = await db.query(`SELECT * FROM comments`)
-    return response
+    return response.rows
 }
 
 export async function getCommentById(id){
     const response = await db.query(`SELECT * FROM comments WHERE comment_id = $1`, [id])
 
-    return response
+    return response.rows
 }
 
 export async function replaceCommentById(id, createObject){
@@ -31,7 +31,7 @@ export async function replaceCommentById(id, createObject){
     RETURNING *`, 
     [user_id , location, comment, date, visibility, id])
 
-    return response
+    return response.rows
 }
 
 export async function createNewComment(createObject){
@@ -50,10 +50,10 @@ export async function createNewComment(createObject){
     RETURNING *`,
     [user_id, location, comment, date, visibility])
 
-    return response
+    return response.rows
 }
 
 export async function deleteCommentById(id){
     const response = await db.query(`DELETE FROM comments WHERE comment_id = $1 RETURNING *`,[id])
-    return response
+    return response.rows
 }
