@@ -62,3 +62,4 @@ export async function deleteFilterById(id) {
 
   return response.rows;
 }
+//
