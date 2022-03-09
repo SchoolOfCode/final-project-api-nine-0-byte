@@ -9,9 +9,10 @@ async function populateTable() {
     const price = filters[i].price;
     const connectorType = filters[i].connector_type;
     const availability = filters[i].availability;
+    const filter_name = filters[i].name;
     const res = await db.query(
-      `INSERT INTO filters (user_id, price, connector_type, availability) VALUES ($1, $2, $3, $4) RETURNING *;`,
-      [user_id, price, connectorType, availability]
+      `INSERT INTO filters (user_id,filter_name, price, connector_type, availability) VALUES ($1, $2, $3, $4, $5) RETURNING *;`,
+      [user_id, filter_name, price, connectorType, availability]
     );
     console.log("populated table", res);
   }

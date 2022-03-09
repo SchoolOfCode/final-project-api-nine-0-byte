@@ -20,17 +20,19 @@ export async function replaceFilterById(id, createObject) {
   const { price } = createObject;
   const { connector_type } = createObject;
   const { availability } = createObject;
+  const {filter_name} = createObject
 
   const response = await db.query(
     `
     UPDATE filters SET 
     user_id = $1,
-    price = $2, 
-    connector_type = $3,
-    availability = $4
-    WHERE filter_id = $5 
+    filter_name =$2,
+    price = $3, 
+    connector_type = $4,
+    availability = $5
+    WHERE filter_id = $6 
     RETURNING *`,
-    [user_id, price, connector_type, availability, id]
+    [user_id, filter_name ,price, connector_type, availability, id]
   );
 
   return response.rows;
@@ -41,14 +43,16 @@ export async function createNewFilter(createObject) {
   const { price } = createObject;
   const { connector_type } = createObject;
   const { availability } = createObject;
+  const {filter_name} = createObject
+  
 
   const response = await db.query(
     `
     INSERT INTO filters
-    (user_id, price, connector_type, availability) 
-    VALUES ($1, $2, $3, $4) 
+    (user_id,filter_name, price, connector_type, availability) 
+    VALUES ($1, $2, $3, $4, $5) 
     RETURNING *`,
-    [user_id, price, connector_type, availability]
+    [user_id, filter_name, price, connector_type, availability]
   );
 
   return response.rows;

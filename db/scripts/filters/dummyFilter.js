@@ -24,7 +24,8 @@ export const filters = knownFakeIds.map((value)=>{
       user_id:value.user_id,
       price: randomNumber>50? 0.5: 0.0, 
       connector_type: randomNumber>50? connectorListOne: connectorListTwo,
-      availability:randomNumber>50? true: false
+      availability:randomNumber>50? true: false,
+      name:"Bob"
   }
   )
 })
