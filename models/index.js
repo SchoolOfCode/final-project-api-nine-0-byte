@@ -23,7 +23,7 @@ async function returnAPIdata(lat, long, dist) {
 
   const APIStoCall =[
       callApi(
-      `https://chargepoints.dft.gov.uk/api/retrieve/registry/format/json/lat/${lat}/long/${long}/dist/${dist}/limit/20`
+      `https://chargepoints.dft.gov.uk/api/retrieve/registry/format/json/lat/${lat}/long/${long}/dist/${dist}/limit/40`
     )
     //  callApi(
     //   `https://api.openchargemap.io/v3/poi?key=${ocmKey}/&Latitude=${lat}&Longitude=${long}`
