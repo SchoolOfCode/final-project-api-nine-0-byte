@@ -57,10 +57,10 @@ async function returnAPIdata(lat, long, dist) {
       lat = lat ??	53.958332;
       long = long ?? -1.080278;
 
-      const shouldSaveSearch = await hasSearchBeenMadeBefore({lat,long})
-      console.log(shouldSaveSearch)
+      // const shouldSaveSearch = await hasSearchBeenMadeBefore({lat,long})
+      // console.log(shouldSaveSearch)
       
-      if(!shouldSaveSearch){return await getPinsBySearch(String([lat,long]))}
+      // if(!shouldSaveSearch){return await getPinsBySearch(String([lat,long]))}
 
       let subscriptions = [{Test: "Placeholder until dummy data is ready"}];
       
