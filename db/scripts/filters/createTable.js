@@ -3,6 +3,7 @@ import db from "../../connection.js";
 const queryString = `
 CREATE TABLE IF NOT EXISTS filters 
     (filter_id SERIAL PRIMARY KEY, 
+    filter_name TEXT,
     user_id TEXT, 
     price FLOAT, 
     connector_type TEXT [], 
