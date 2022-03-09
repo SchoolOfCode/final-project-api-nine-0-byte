@@ -48,9 +48,9 @@ async function returnAPIdata(lat, long, dist) {
 }
 
 
-async function hasSearchBeenMadeBefore({lat,long}){
-      return await getSearchByLocation(String([lat,long])) !== []? true:false
-}
+// async function hasSearchBeenMadeBefore({lat,long}){
+//       return await getSearchByLocation(String([lat,long])) !== []? true:false
+// }
 
     export async function getAllChargingStationsFromLatAndLong({lat,long,dist}) {
       dist = dist ?? 10;
@@ -73,12 +73,12 @@ async function hasSearchBeenMadeBefore({lat,long}){
 
       ncr?.forEach((v) => {
 
-        if(shouldSaveSearch){
-          createNewSearch({
-            search:String([lat,long]),
-            location:String([v.ChargeDeviceLocation.Latitude,v.ChargeDeviceLocation.Longitude])
-          })
-        }
+        // if(shouldSaveSearch){
+        //   createNewSearch({
+        //     search:String([lat,long]),
+        //     location:String([v.ChargeDeviceLocation.Latitude,v.ChargeDeviceLocation.Longitude])
+        //   })
+        // }
         //////////////////////////
         const probability = 35;
         let eta =( ()=>{ 
@@ -119,9 +119,7 @@ async function hasSearchBeenMadeBefore({lat,long}){
           Subscriptions: subscriptions,
           NearbyPOI: [{}],
         };
-        if(shouldSaveSearch){
-          createNewPin(chargingpoint)
-        }
+      
         arrayOfChargingpoints.push(chargingpoint); 
       });
 

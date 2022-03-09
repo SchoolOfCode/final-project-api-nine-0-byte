@@ -13,6 +13,10 @@ export async function getCommentById(id){
     return response.rows
 }
 
+
+
+
+
 export async function replaceCommentById(id, createObject){
     const {user_id} = createObject ?? Null
     const {location} = createObject ?? ""
