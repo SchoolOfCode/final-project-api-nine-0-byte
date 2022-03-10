@@ -153,3 +153,4 @@ async function returnAPIdata(lat, long, dist) {
 
 //api requests
 //return the data processed
+//Dev6.0
