@@ -7,8 +7,14 @@ export async function getAllComments(){
     return response.rows
 }
 
-export async function getCommentById(id){
-    const response = await db.query(`SELECT * FROM comments WHERE comment_id = $1`, [id])
+export async function getCommentsByLocation(id){
+console.log(id)
+    const response = await db.query(` 
+    SELECT users.username, comments.* 
+    FROM users 
+    JOIN comments ON users.user_id = comments.user_id 
+    WHERE comments.location = $1 
+    ORDER BY comments.comment_id ASC`, [id])
 
     return response.rows
 }
