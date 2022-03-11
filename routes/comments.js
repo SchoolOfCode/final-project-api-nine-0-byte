@@ -1,5 +1,5 @@
 import express from "express";
-import { getCommentById, createNewComment, getAllComments, replaceCommentById, deleteCommentById } from "../models/comments.js";
+import { getCommentsByLocation, createNewComment, getAllComments, replaceCommentById, deleteCommentById } from "../models/comments.js";
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ router.get("/", async function (req, res, next) {
 
 router.get("/:id", async function (req, res, next) {
   
-  res.json(await getCommentById(req.params.id)) 
+  res.json(await getCommentsByLocation(req.params.id)) 
 });
 
 

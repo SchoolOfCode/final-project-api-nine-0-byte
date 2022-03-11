@@ -2,7 +2,7 @@ import db from "../db/connection.js"
 
 export async function getAllUsers(){
     const response = await db.query("SELECT * FROM users")
-    return response
+    return response.rows
 }
 
 export async function getUserById(id){
@@ -21,6 +21,8 @@ export async function replaceUserById(id, updatedObject){
 }
 
 export async function createNewUser({user_id, username}){
+
+    // if(await getUserById(user_id).length !== 0){return {WHAT:"User already exists, calm down front end"}}
 
     username = username ?? "Username is changeable in settings"
 
