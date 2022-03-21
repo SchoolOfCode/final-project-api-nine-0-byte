@@ -24,7 +24,7 @@
     "db:populatePins":"node -r dotenv/config ./db/scripts/pins/populateTable.js",
 
     "db:dropAllTables": "node -r dotenv/config ./db/scripts/users/dropTable.js && node -r dotenv/config ./db/scripts/filters/dropTable.js && node -r dotenv/config ./db/scripts/comments/dropTable.js && node -r dotenv/config ./db/scripts/searches/dropTable.js && node -r dotenv/config ./db/scripts/pins/dropTable.js",
-    "db:createAllTables": "node -r dotenv/config ./db/scripts/comments/createTable.js && node -r dotenv/config ./db/scripts/filters/createTable.js && node -r dotenv/config ./db/scripts/users/createTable.js && node -r dotenv/config ./db/scripts/searches/createTable.js && node -r dotenv/config ./db/scripts/pins/createTable.js",
+    "db:createAllTables": "node -r dotenv/config ./db/scripts/comments/createTable.js && node -r dotenv/config ./db/scripts/filters/createTable.js && node -r dotenv/config ./db/scripts/users/createTable.js ",
     "db:populateAllTables": "node -r dotenv/config ./db/scripts/users/populateTable.js && node -r dotenv/config ./db/scripts/filters/populateTable.js && node -r dotenv/config ./db/scripts/comments/populateTable.js && node -r dotenv/config ./db/scripts/searches/populateTable.js && node -r dotenv/config ./db/scripts/pins/populateTable.js",
     "dev": "nodemon -r dotenv/config ./bin/www.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
